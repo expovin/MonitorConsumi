@@ -1,0 +1,109 @@
+module.exports = {
+
+    MQTTfreq: 10 * 1000,            // Frequenza Messaggi MQTT
+    //polling : 2  * 1000,            // Frequenza polling in funzionamento
+    puntiIntermedi: 3,
+    tempoSogliaLettura: 2 * 60,
+
+    comandi : {
+            /**
+             * Comando usando (mosquitto_pub)
+             * mosquitto_pub -h 192.168.0.18 -p 1883 -u powr2 -P domotica -t <TOPIC> -m <MESSAGE>
+             *  topic:cmnd/lavatrice/POWER   message: ON|OFF         --> Comando da dare per lo spegnimento o accension
+             *  topic:stat/asciugatrice/POWER = OFF                  --> Msg inviato sul Broker per avvertirte del nuovo stato
+             *  topic:stat/asciugatrice/RESULT = {"POWER":"ON"}     --> Msg inviato sul Broker per avvertirte del nuovo stato          
+             */
+        STOP_CLIENT         :{topic:'comando/client', message:'STOP'},   
+        SAVE_TO_FILE        :{topic:'comando/client', message:'SAVE_DATA'},
+        STOP_ASCIUGATRICE   :{topic:'stat/asciugatrice/RESULT', message:{"POWER":"OFF"}},
+        START_ASSCIUGATRICE :{topic:'stat/asciugatrice/RESULT', message:{"POWER":"ON"}},
+        STOP_LAVATRICE      :{topic:'stat/lavatrice/RESULT', message:{"POWER":"OFF"}},
+        START_LAVATRICE     :{topic:'stat/lavatrice/RESULT', message:{"POWER":"ON"}}        
+    },
+
+    tempiMedia : {
+        Soglia1: 2 * 60 * 1000,
+        Soglia2: 92* 60 * 1000,
+        Soglia3:182* 60 * 1000
+    },
+
+    SOGLIA_CODE : 98,
+
+    SOGLIA : {
+        BASE : 3300,
+        SICUREZZA : 4400,
+        ALTA : 4700,
+        BASSA : 2900
+    },
+
+    
+    host:"http://192.168.0.18:3200/",
+
+    mariaDb : {
+        host:"192.168.0.4",
+        port: 3307,
+        database : "apiService",
+        user : "root",
+        password : "top$ecret",
+        connectionLimit: 5
+    },
+
+    MQTT : {
+        port: 1883,
+        host: 'mqtt://192.168.0.18',
+        clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+        username: 'powr2',
+        password: 'domotica',
+        keepalive: 60,
+        reconnectPeriod: 1000,
+        protocolId: 'MQIsdp',
+        protocolVersion: 3,
+        clean: true,
+        encoding: 'utf8'
+    },
+
+    email : {
+        host:"192.168.0.18",
+        port:3200,
+        sender:"Monitor Consumi Energia <expovin@me.com>",
+        recipients:["expovin@gmail.com","zuccherofarina@gmail.com"]
+    },   
+
+    devices : {
+        lavatrice : {
+            id:'1000f41de3',
+            ip:"192.168.0.59",
+            url:"http://192.168.0.59/?m=1",
+            sogliaON : 15,
+            cmdOFF : {topic:"cmnd/lavatrice/POWER", msg:"OFF"},
+            cmdON : {topic:"cmnd/lavatrice/POWER", msg:"ON"},
+            TTON : 5 * 1000
+        },
+        asciugatrice: {
+            id:'1000f41dc3',
+            ip:'192.168.0.30',
+            url:"http://192.168.0.30/?m=1",
+            sogliaON : 15,
+            cmdOFF : {topic:"cmnd/asciugatrice/POWER", msg:"OFF"},
+            cmdON : {topic:"cmnd/asciugatrice/POWER", msg:"ON"},
+            TTON : 5 * 1000
+        },
+        "micro-onde": {
+            id:'',
+            ip:'192.168.0.84',
+            url:"http://192.168.0.84/?m=1",
+            sogliaON : 10,
+            cmdOFF : {topic:"cmnd/micro-onde/POWER", msg:"OFF"},
+            cmdON : {topic:"cmnd/micro-onde/POWER", msg:"ON"},
+            TTON : 5 * 1000
+        }        
+    },
+
+    priorityList : ["micro-onde","asciugatrice","lavatrice"],
+    lavanderiaPriority : ["asciugatrice","lavatrice"],
+
+    topic : {
+        data : "#"
+    }
+      
+}
