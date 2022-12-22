@@ -1,8 +1,5 @@
-const chk = require('./listaControlli');
-const settings = require('./settings');
-const mqtt = require('mqtt');
-
-//chk.test()
+const hlp = require('./helper');
+/*
 
 IoTdataStream  = mqtt.connect(settings.MQTT.host,settings.MQTT)
 
@@ -16,6 +13,7 @@ IoTdataStream.on('connect', function () {
         }
       })
 
-    
-    //IoTdataStream.end();
   })
+*/
+
+hlp.sendWebHookToHomeAssistant("W0","Consumi sopra la media, possibile distacco corrente nelle prossime 2 ore.");

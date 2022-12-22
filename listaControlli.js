@@ -81,7 +81,8 @@ module.exports = {
             let P_Avg182Min = P.getLast182MinAvg();
             if(P_Avg182Min > settings.SOGLIA.BASSA){
                 emailSubject="Superata soglia BASSA per potenza 182Min "+P_Avg182Min+"  Spengo carico";
-                console.log(emailSubject);
+                //console.log(emailSubject);
+                hlp.sendWebHookToHomeAssistant("182", "Superata soglia bassa a 182 minuti. Spegnere qualcosa");
                 spegniCarico(IoTdataStream);
                 return(true);
             }
@@ -95,9 +96,10 @@ module.exports = {
         if(queueFillingStatus.l92min.full > settings.SOGLIA_CODE){
             let P_Avg92Min = P.getLast92MinAvg();
             if(P_Avg92Min > settings.SOGLIA.ALTA){
-                emailSubject="Superata soglia ALTA per potenza 92 Min "+P_Avg92Min+" Spengo carico"
-                console.log(emailSubject);
-                spegniCarico(IoTdataStream);
+                emailSubject="Superata soglia ALTA per potenza 92 Min "+P_Avg92Min+" Spengo carico";
+                hlp.sendWebHookToHomeAssistant("92","Superata soglia alta a 92 minuti, spegnere qualcosa");
+                //console.log(emailSubject);
+                //spegniCarico(IoTdataStream);
                 return(true);
             }
         }
@@ -111,8 +113,9 @@ module.exports = {
             let P_Avg2Min = P.getLast2MinAvg();
             if(P_Avg2Min > settings.SOGLIA.SICUREZZA){
                 emailSubject="Superata soglia SICUREZZA per potenza 2Min "+P_Avg2Min+" Spengo carico"
-                console.log(emailSubject);
-                spegniCarico(IoTdataStream);
+                hlp.sendWebHookToHomeAssistant("2","Superata soglia sicurezza a 2 minuti, spegnere qualcosa immediatamente.");
+                //console.log(emailSubject);
+                //spegniCarico(IoTdataStream);
                 return(true);
             }
         }
@@ -127,6 +130,7 @@ module.exports = {
         if(power > settings.SOGLIA.ALTA){
             emailSubject="Superata soglia ALTA per potenza istantanea "+power+" Spengo carico";
             console.log(emailSubject);
+            hlp.sendWebHookToHomeAssistant("0","Superata soglia istantanea, spegnere qualcosa immediatamente.");
             spegniCarico(IoTdataStream);
             return(true);
         }
@@ -139,9 +143,10 @@ module.exports = {
             if(P_Avg92Min > settings.SOGLIA.BASE){
                 emailSubject="WARNING : Superata soglia BASE per potenza 92 Min "+P_Avg92Min
                 emailText="Non è stat presa alcuna azione, se i consumi di energia rimarranno costanti nella\
-                            prossima ora, il contatore potrebbe staccare l'erogazione di corrente."            
-                console.log(emailSubject);
-                hlp.sendEmail({emailSubject:emailSubject, text:emailText})
+                            prossima ora, il contatore potrebbe staccare l'erogazione di corrente."    
+                            hlp.sendWebHookToHomeAssistant("W92","Consumi sopra la media, possibile distacco corrente nella prossima ora.");        
+                //console.log(emailSubject);
+                //hlp.sendEmail({emailSubject:emailSubject, text:emailText})
                 return(true);
             } 
         }
@@ -154,7 +159,8 @@ module.exports = {
             emailSubject="WARNING : Superata soglia BASE per potenza Istantanea "+power
             emailText="Non è stat presa alcuna azione, se i consumi di energia rimarranno costanti nelle\
                         prossime 2 ore, il contatore potrebbe staccare l'erogazione di corrente."
-            console.log(emailSubject);
+                        hlp.sendWebHookToHomeAssistant("W0","Consumi sopra la media, possibile distacco corrente nelle prossime 2 ore.");
+            //console.log(emailSubject);
             //hlp.sendEmail({emailSubject:emailSubject, text:emailText})
             return(true)
         }

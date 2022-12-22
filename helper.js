@@ -105,6 +105,40 @@ module.exports = {
         }     
     },
 
+    sendWebHookToHomeAssistant : function(code, message) {
+      //http://192.168.0.151:8123/api/webhook/-Fwzh6OK0JKSzQZtv5wSbLDum
+      return new Promise((fulfill, reject) => {
+        let uri = settings.HomeAssistant.url+
+                  settings.HomeAssistant.webhookUri +
+                  settings.HomeAssistant.webhookSuperamentoSoglia;
+
+        let body = {code : code, message:message}
+
+        console.log("Uri : "+uri);
+        console.log(body);
+
+        fetch(  uri , {
+            "headers": {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            "body":  JSON.stringify(body),
+            "method": "POST"
+          })
+          .then(res => res.text())
+          .then(result => {
+            console.log("Finito!!!");
+            console.log(result)
+            fulfill("done")
+          })
+          .catch(error => {
+            console.log("Errore!")
+            console.error(error);
+            reject(error)
+          });
+    }) 
+    },
+
     getPow2RowData : function(device) {
 
       //console.log("Seding request to "+settings.devices[device].url)

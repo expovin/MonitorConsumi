@@ -69,6 +69,12 @@ module.exports = {
         recipients:["expovin@gmail.com","zuccherofarina@gmail.com"]
     },   
 
+    HomeAssistant : {
+        url : "http://192.168.0.151:8123/",
+        webhookUri: "api/webhook/",
+        webhookSuperamentoSoglia : "-Fwzh6OK0JKSzQZtv5wSbLDum"
+    },
+
     devices : {
         lavatrice : {
             id:'1000f41de3',
