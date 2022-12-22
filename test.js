@@ -16,4 +16,4 @@ IoTdataStream.on('connect', function () {
   })
 */
 
-hlp.sendWebHookToHomeAssistant("W0","Consumi sopra la media, possibile distacco corrente nelle prossime 2 ore.");
+hlp.sendWebHookToHomeAssistant("W92","Consumi sopra la media, possibile distacco corrente nelle prossime 2 ore.");

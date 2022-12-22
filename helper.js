@@ -108,9 +108,12 @@ module.exports = {
     sendWebHookToHomeAssistant : function(code, message) {
       //http://192.168.0.151:8123/api/webhook/-Fwzh6OK0JKSzQZtv5wSbLDum
       return new Promise((fulfill, reject) => {
+
+        let webhook = settings.HomeAssistant.codes[code] || settings.HomeAssistant.codes.default;
+
         let uri = settings.HomeAssistant.url+
                   settings.HomeAssistant.webhookUri +
-                  settings.HomeAssistant.webhookSuperamentoSoglia;
+                  webhook;
 
         let body = {code : code, message:message}
 
@@ -136,7 +139,7 @@ module.exports = {
             console.error(error);
             reject(error)
           });
-    }) 
+      }) 
     },
 
     getPow2RowData : function(device) {

@@ -72,7 +72,10 @@ module.exports = {
     HomeAssistant : {
         url : "http://192.168.0.151:8123/",
         webhookUri: "api/webhook/",
-        webhookSuperamentoSoglia : "-Fwzh6OK0JKSzQZtv5wSbLDum"
+        codes : {
+            W0 : "-VWabcl0zeKHDN84IzX-dgR8a",
+            default: "-Fwzh6OK0JKSzQZtv5wSbLDum"
+        }
     },
 
     devices : {
